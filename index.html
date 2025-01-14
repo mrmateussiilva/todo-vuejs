@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List with JSON Storage</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-4">
+  <div id="app">
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-6">
+      <h2 class="text-xl font-bold mb-4 text-center">To-Do List</h2>
+
+      <!-- Task Input -->
+      <div class="add-todo space-y-4">
+        <input type="text" v-model="newTask" placeholder="Task description"
+               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-300">
+        <select v-model="newPriority"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-300">
+          <option value="High">High Priority</option>
+          <option value="Medium">Medium Priority</option>
+          <option value="Low">Low Priority</option>
+        </select>
+        <input type="datetime-local" v-model="newDeadline" placeholder="Deadline"
+               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-300">
+        <input type="text" v-model="newTag" placeholder="Tag (e.g., Work, Personal)"
+               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-300">
+        <button @click="addTask"
+                class="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600">Add Task</button>
+      </div>
+
+      <!-- Task List -->
+      <div v-if="tasks.length === 0" class="mt-4 text-center text-gray-500">No tasks available.</div>
+      <div v-else class="mt-4 space-y-4">
+        <div v-for="(task, index) in tasks" :key="index"
+             class="flex items-center justify-between bg-gray-100 p-4 rounded-md shadow-md">
+          <div>
+            <span @click="toggleTask(index)"
+                  class="block text-lg font-medium cursor-pointer"
+                  :class="{ 'line-through text-gray-500': task.completed }">
+                  {{ task.text }}
+            </span>
+            <div class="text-sm text-gray-600 mt-1">
+              <div>Priority: {{ task.priority }}</div>
+              <div>Deadline: {{ task.deadline }}</div>
+              <div>Tag: {{ task.tag }}</div>
+            </div>
+          </div>
+          <button @click="removeTask(index)"
+                  class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="main.js"></script>
+</body>
+</html>
